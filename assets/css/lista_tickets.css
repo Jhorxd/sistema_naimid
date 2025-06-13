@@ -1,0 +1,156 @@
+/* estilos_tickets.css */
+
+/* Body y título */
+body {
+    background-color: #f4f7fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 32px;
+    color: #232946;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #1976d2;
+    letter-spacing: 1px;
+}
+
+/* Tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0 4px 24px rgba(25, 118, 210, 0.07);
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 1rem;
+}
+
+/* Encabezados */
+thead {
+    background-color: #1976d2;
+    color: #fff;
+}
+
+thead th {
+    padding: 14px 20px;
+    text-align: left;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+}
+
+/* Filas */
+tbody tr {
+    border-bottom: 1px solid #e0e6f1;
+    transition: background-color 0.2s ease;
+}
+
+tbody tr:hover {
+    background-color: #f0f4ff;
+}
+
+/* Celdas */
+tbody td {
+    padding: 14px 20px;
+    color: #333c4a;
+    vertical-align: middle;
+}
+
+/* Select para prioridad */
+select.cambiar-prioridad {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1.5px solid #bfc8d2;
+    background-color: #f7fafc;
+    font-size: 1rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+select.cambiar-prioridad:focus {
+    border-color: #1976d2;
+    outline: none;
+    box-shadow: 0 0 6px rgba(25, 118, 210, 0.4);
+}
+
+/* Enlaces de acciones */
+tbody td a {
+    color: #1976d2;
+    text-decoration: none;
+    font-weight: 600;
+    margin: 0 6px;
+    transition: color 0.3s ease;
+}
+
+tbody td a:hover {
+    color: #1565c0;
+    text-decoration: underline;
+}
+
+.container .btn-logout {
+    background: #fff;
+    color: #1976d2;
+    padding: 8px 18px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+    border: 1px solid #fff;
+}
+
+.container .btn-logout:hover {
+    background: #1565c0;
+    color: #fff;
+    border-color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+    body {
+        padding: 16px;
+    }
+
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    thead tr {
+        display: none;
+    }
+
+    tbody tr {
+        margin-bottom: 24px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(25, 118, 210, 0.1);
+        background: #fff;
+        padding: 16px;
+    }
+
+    tbody td {
+        padding: 8px 12px;
+        text-align: right;
+        position: relative;
+        border: none;
+        border-bottom: 1px solid #e0e6f1;
+    }
+
+    tbody td:last-child {
+        border-bottom: none;
+    }
+
+    tbody td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-weight: 700;
+        color: #1976d2;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        white-space: nowrap;
+    }
+}
