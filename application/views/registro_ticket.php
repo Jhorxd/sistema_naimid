@@ -20,16 +20,63 @@
         </div>
     </div>
 
-    <?php echo form_open_multipart('tickets/registrar', ['id' => 'formRegistrarTicket']); ?>
+    <?php echo form_open('tickets/registrar', ['id' => 'formRegistrarTicket']); ?>
 
-    <label>Título:</label>
-    <input type="text" name="titulo" required>
+    <label>Motivo:</label>
+    <select name="motivo" required>
+        <option value="">Seleccione un motivo</option>
+        <option value="Control de Proveedores">Control de Proveedores</option>
+        <option value="Control de recertificación de accesos">Control de recertificación de accesos</option>
+        <option value="Requerimiento">Requerimiento</option>
+        <option value="Sinceramiento">Sinceramiento</option>
+    </select>
 
-    <label>Descripción:</label>
-    <textarea name="descripcion" rows="5" required></textarea>
+    <label>Estado:</label>
+    <select name="estado" required>
+        <option value="">Seleccione estado</option>
+        <option value="derivado">Derivado</option>
+        <option value="realizado">Realizado</option>
+    </select>
 
-    <label>Evidencia (opcional):</label>
-    <input type="file" name="evidencia">
+    <label>Acción:</label>
+    <select name="accion" required>
+        <option value="">Seleccione acción</option>
+        <option value="Creacion">Creación</option>
+        <option value="Cambio de perfil">Cambio de perfil</option>
+        <option value="Eliminacion">Eliminación</option>
+        <option value="Reseteo">Reseteo</option>
+        <option value="Modificacion">Modificación</option>
+        <option value="Bloqueo">Bloqueo</option>
+        <option value="Reseteo MFA">Reseteo MFA</option>
+    </select>
+
+    <label>Responsable de ejecución:</label>
+    <input type="text" name="responsable_ejecucion" required>
+
+    <label>Solicitante:</label>
+    <input type="text" name="solicitante" required>
+
+    <label>Aprobador de la solicitud:</label>
+    <input type="text" name="aprobador" required>
+
+    <label>Aplicación:</label>
+    <input type="text" name="aplicacion" required>
+
+    <label>Responsable de la app:</label>
+    <input type="text" name="responsable_app" value="<?php echo $this->session->userdata('nombre'); ?>" readonly>
+
+    <label>Tipo de usuario:</label>
+    <input type="text" name="tipo_usuario" required>
+
+    <label>Correo del usuario:</label>
+    <input type="text" name="correo_usuario" required>
+
+    <label>Solicitud:</label>
+    <select name="solicitud" required>
+        <option value="">Seleccione una opción</option>
+        <option value="alta">Alta</option>
+        <option value="baja">Baja</option>
+    </select>
 
     <button type="submit">Registrar Ticket</button>
 

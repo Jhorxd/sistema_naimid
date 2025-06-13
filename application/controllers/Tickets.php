@@ -37,59 +37,35 @@ class Tickets extends CI_Controller {
 
     // Guardar ticket (solo cliente)
    public function registrar() {
+    // Validar que el usuario tenga rol 'cliente'
     if ($this->session->userdata('rol') !== 'cliente') {
         show_error('No tienes permiso para acceder a esta página.', 403);
     }
 
+    // Recoger datos del formulario incluyendo 'solicitud'
     $data = array(
-        'id_usuario'  => $this->session->userdata('id_usuario'),
-        'titulo'      => $this->input->post('titulo'),
-        'descripcion' => $this->input->post('descripcion'),
+        'motivo'               => $this->input->post('motivo'),
+        'estado'               => $this->input->post('estado'),
+        'responsable_ejecucion'=> $this->input->post('responsable_ejecucion'),
+        'solicitante'          => $this->input->post('solicitante'),
+        'aprobador'            => $this->input->post('aprobador'),
+        'accion'               => $this->input->post('accion'),
+        'aplicacion'           => $this->input->post('aplicacion'),
+        'responsable_app'      => $this->session->userdata('nombre'),  // Nombre del usuario logueado
+        'tipo_usuario'         => $this->input->post('tipo_usuario'),
+        'correo_usuario'       => $this->input->post('correo_usuario'),
+        'solicitud'            => $this->input->post('solicitud')      // Nuevo campo agregado
     );
 
+    // Guardar ticket en la base de datos
     $ticket_id = $this->Ticket_model->guardar_ticket($data);
 
-    // Subida de evidencia (opcional)
-    if (!empty($_FILES['evidencia']['name'])) {
-        $upload_path = './uploads/';
-
-        // Crear carpeta si no existe
-        if (!is_dir($upload_path)) {
-            mkdir($upload_path, 0777, true);
-        }
-
-        $config['upload_path']   = $upload_path;
-        $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf|docx|zip|mp4|mov|avi|mkv|webm';
-        $config['file_name']     = time() . '_' . $_FILES['evidencia']['name'];
-        $config['max_size']      = 102400; // 100MB
-
-        $this->load->library('upload', $config);
-        $this->upload->initialize($config);
-
-        if ($this->upload->do_upload('evidencia')) {
-            $archivo = $this->upload->data();
-            $evidencia = array(
-                'id_ticket'      => $ticket_id,
-                'nombre_archivo' => $archivo['file_name'],
-                'ruta_archivo'   => 'uploads/' . $archivo['file_name'],
-                'subido_en'      => date('Y-m-d H:i:s')
-            );
-            $this->Ticket_model->guardar_evidencia($evidencia);
-        } else {
-            log_message('error', 'Error al subir evidencia: ' . $this->upload->display_errors());
-        }
-    }
-
-    // Aquí seteamos el flashdata para la alerta
+    // Flashdata para confirmar registro
     $this->session->set_flashdata('ticket_registrado', true);
 
-    // Redirigimos a la página donde está el formulario (o la vista que uses)
+    // Redirigir a la página de nuevo ticket o listado
     redirect('tickets/nuevo');
 }
-
-
-
-
 
     public function mis_tickets() {
     // Reemplaza con la sesión real del cliente cuando la tengas
