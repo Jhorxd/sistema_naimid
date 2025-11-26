@@ -1,120 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
+    <meta charset="UTF-8">
     <title>Registrar Ticket</title>
     <link rel="stylesheet" href="<?php echo base_url('assets/css/registro_ticket.css'); ?>">
-
-    <!-- Incluir SweetAlert desde CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
+    <div class="main-wrapper">
 
-    <div class="header">
-        <h2>Registrar Ticket</h2>
-
-        <div class="container">
-            <a href="<?php echo site_url('tickets/mis_tickets'); ?>" class="btn-ver-tickets">Ver mis Tickets</a>
-            <a href="<?php echo site_url('auth/logout'); ?>" class="btn-logout">Cerrar Sesión</a>
+        <div class="header">
+            <h2>Registrar Ticket</h2>
+            <div class="container">
+                <!-- <a href="<//?php echo site_url('tickets/mis_tickets'); ?>" class="btn-ver-tickets">Ver mis Tickets</a> -->
+                <a href="<?php echo site_url('auth/logout'); ?>" class="btn-logout">Cerrar Sesión</a>
+            </div>
         </div>
+
+        <?php echo form_open('tickets/registrar', ['id' => 'formRegistrarTicket']); ?>
+
+        <label for="motivo">Motivo:</label>
+        <select name="motivo" id="motivo" required>
+            <option value="">Seleccione un motivo</option>
+            <option value="Control de Proveedores">Control de Proveedores</option>
+            <option value="Control de recertificación de accesos">Control de recertificación de accesos</option>
+            <option value="Requerimiento">Requerimiento</option>
+            <option value="Sinceramiento">Sinceramiento</option>
+        </select>
+
+        <label for="estado">Estado:</label>
+        <select name="estado" id="estado" required>
+            <option value="">Seleccione estado</option>
+            <option value="derivado">Derivado</option>
+            <option value="realizado">Realizado</option>
+        </select>
+
+        <label for="accion">Acción:</label>
+        <select name="accion" id="accion" required>
+            <option value="">Seleccione acción</option>
+            <option value="Creacion">Creación</option>
+            <option value="Cambio de perfil">Cambio de perfil</option>
+            <option value="Eliminacion">Eliminación</option>
+            <option value="Reseteo">Reseteo</option>
+            <option value="Modificacion">Modificación</option>
+            <option value="Bloqueo">Bloqueo</option>
+            <option value="Reseteo MFA">Reseteo MFA</option>
+        </select>
+
+        <label for="responsable_ejecucion">Responsable de ejecución:</label>
+        <input type="text" name="responsable_ejecucion" id="responsable_ejecucion" required>
+
+        <label for="solicitante">Solicitante:</label>
+        <input type="text" name="solicitante" id="solicitante" required>
+
+        <label for="aprobador">Aprobador de la solicitud:</label>
+        <input type="text" name="aprobador" id="aprobador" required>
+
+        <label for="aplicacion">Aplicación:</label>
+        <input type="text" name="aplicacion" id="aplicacion" required>
+
+        <label for="responsable_app">Responsable de la app:</label>
+        <input type="text" name="responsable_app" id="responsable_app" value="<?php echo $this->session->userdata('nombre'); ?>" readonly>
+
+        <label for="tipo_usuario">Tipo de usuario:</label>
+        <input type="text" name="tipo_usuario" id="tipo_usuario" required>
+
+        <label for="correo_usuario">Correo del usuario:</label>
+        <input type="text" name="correo_usuario" id="correo_usuario" required>
+
+        <button type="submit">Registrar Ticket</button>
+
+        <?php echo form_close(); ?>
+
     </div>
 
-    <?php echo form_open('tickets/registrar', ['id' => 'formRegistrarTicket']); ?>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('formRegistrarTicket');
 
-    <label>Motivo:</label>
-    <select name="motivo" required>
-        <option value="">Seleccione un motivo</option>
-        <option value="Control de Proveedores">Control de Proveedores</option>
-        <option value="Control de recertificación de accesos">Control de recertificación de accesos</option>
-        <option value="Requerimiento">Requerimiento</option>
-        <option value="Sinceramiento">Sinceramiento</option>
-    </select>
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
 
-    <label>Estado:</label>
-    <select name="estado" required>
-        <option value="">Seleccione estado</option>
-        <option value="derivado">Derivado</option>
-        <option value="realizado">Realizado</option>
-    </select>
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¿Quieres registrar este ticket?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, registrar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
 
-    <label>Acción:</label>
-    <select name="accion" required>
-        <option value="">Seleccione acción</option>
-        <option value="Creacion">Creación</option>
-        <option value="Cambio de perfil">Cambio de perfil</option>
-        <option value="Eliminacion">Eliminación</option>
-        <option value="Reseteo">Reseteo</option>
-        <option value="Modificacion">Modificación</option>
-        <option value="Bloqueo">Bloqueo</option>
-        <option value="Reseteo MFA">Reseteo MFA</option>
-    </select>
+            if (result.isConfirmed) {
 
-    <label>Responsable de ejecución:</label>
-    <input type="text" name="responsable_ejecucion" required>
+                // Mostrar mensaje "registrado"
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Ticket registrado',
+                    text: 'El ticket se ha registrado correctamente.',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
 
-    <label>Solicitante:</label>
-    <input type="text" name="solicitante" required>
-
-    <label>Aprobador de la solicitud:</label>
-    <input type="text" name="aprobador" required>
-
-    <label>Aplicación:</label>
-    <input type="text" name="aplicacion" required>
-
-    <label>Responsable de la app:</label>
-    <input type="text" name="responsable_app" value="<?php echo $this->session->userdata('nombre'); ?>" readonly>
-
-    <label>Tipo de usuario:</label>
-    <input type="text" name="tipo_usuario" required>
-
-    <label>Correo del usuario:</label>
-    <input type="text" name="correo_usuario" required>
-
-    <label>Solicitud:</label>
-    <select name="solicitud" required>
-        <option value="">Seleccione una opción</option>
-        <option value="alta">Alta</option>
-        <option value="baja">Baja</option>
-    </select>
-
-    <button type="submit">Registrar Ticket</button>
-
-    <?php echo form_close(); ?>
-
-    <?php if ($this->session->flashdata('ticket_registrado')): ?>
-        <script>
-            Swal.fire({
-                icon: 'success',
-                title: '¡Ticket registrado!',
-                text: 'Tu ticket ha sido registrado correctamente.',
-                confirmButtonText: 'Aceptar'
-            });
-        </script>
-    <?php endif; ?>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const form = document.getElementById('formRegistrarTicket');
-
-        form.addEventListener('submit', function (e) {
-            e.preventDefault(); // Evita el envío inmediato
-
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: "¿Quieres registrar este ticket?",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Sí, registrar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
+                // Enviar formulario después de mostrar el mensaje
+                setTimeout(() => {
                     form.submit();
-                }
-            });
+                }, 2000);
+            }
         });
     });
-    </script>
+});
+</script>
 
 </body>
 

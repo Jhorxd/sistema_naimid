@@ -30,7 +30,7 @@ class Auth extends CI_Controller {
 
             // Redirección según el rol
             if ($usuario->rol == 'admin') {
-                redirect('admin/dashboard'); // Ajusta la ruta para admin
+                redirect('tickets/index'); // Ajusta la ruta para admin
             } elseif ($usuario->rol == 'cliente') {
                 redirect('tickets/nuevo'); // Ruta para clientes
             } else {

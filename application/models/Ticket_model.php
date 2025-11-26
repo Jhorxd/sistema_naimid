@@ -17,13 +17,15 @@ class Ticket_model extends CI_Model {
 }
 
         // Obtener todos los tickets con nombre del usuario
-    public function obtener_todos_los_tickets() {
-        $this->db->select('tickets.*, usuarios.nombre AS nombre_usuario');
-        $this->db->from('tickets');
-        $this->db->join('usuarios', 'usuarios.id_usuario = tickets.id_usuario');
-        $this->db->order_by('tickets.creado_en', 'DESC');
-        return $this->db->get()->result();
-    }
+public function obtener_todos_los_tickets() {
+    $this->db->select('tickets.*, usuarios.nombre AS nombre_usuario');
+    $this->db->from('tickets');
+    $this->db->join('usuarios', 'usuarios.correo = tickets.correo_usuario', 'left');
+    $this->db->order_by('tickets.fecha', 'DESC');  // Asumiendo que la columna fecha es 'fecha'
+    return $this->db->get()->result();
+}
+
+
 
     public function obtener_tickets_por_usuario($id_usuario) {
     $this->db->where('id_usuario', $id_usuario);
@@ -56,5 +58,20 @@ public function actualizar_prioridad($id_ticket, $prioridad) {
     $this->db->where('id_ticket', $id_ticket);
     $this->db->update('tickets', ['prioridad' => $prioridad]);
 }
+
+
+public function actualizar_estado($id, $estado)
+{
+    $this->db->where('id_ticket', $id);
+    $this->db->update('tickets', ['estado' => $estado]);
+}
+
+public function eliminar($id)
+{
+    $this->db->where('id_ticket', $id);
+    $this->db->delete('tickets');
+}
+
+
 
 }
